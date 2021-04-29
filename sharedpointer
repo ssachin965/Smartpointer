@@ -1,0 +1,131 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+class counter
+{
+private:
+unsigned int mcounter;
+
+public:
+counter() : mcounter(0){};
+counter(const counter& obj) = delete;
+counter& operator=(const counter& obj) = delete;
+
+void reset()
+{
+mcounter = 0;
+}
+
+unsigned int get()
+{
+return mcounter;
+}
+
+void operator++()
+{
+mcounter++;
+}
+void operator++(int)
+{
+mcounter++;
+}
+
+void operator--()
+{
+mcounter--;
+}
+void operator--(int)
+{
+mcounter--;
+}
+
+};
+
+template < typename T >
+class SP
+{
+private:
+T *t;
+counter *mc;
+public:
+SP(T* t1 = nullptr)
+{
+cout<<"ctor called"<<endl;
+t = t1;
+mc = new counter();
+if(t)
+{
+(*mc)++;
+}
+}
+SP(const SP<T>& obj)
+{
+cout<<"copy ctor called"<<endl;
+t = obj.t;
+mc = obj.mc;
+(*mc)++;
+cout<<"mc = "<<mc->get()<<endl;
+}
+SP<T>& operator=(const SP<T>& obj)
+{
+cout<<"assinment called"<<endl;
+if(this == &obj)
+{
+return *this;
+}
+
+t = obj.t;
+mc = obj.mc;
+(*mc)++;
+cout<<"mc = "<<mc->get()<<endl;
+return *this;
+}
+T* get()
+{
+return t;
+}
+
+T& operator* ()
+{
+return *t;
+}
+
+T* operator-> ()
+{
+return t;
+}
+
+~SP()
+{
+(*mc)--;
+if(mc == 0)
+{
+delete t;
+delete mc;
+}
+cout<<"dtor mc = "<<mc->get()<<endl;
+
+}
+};
+
+class Person
+{
+int age;
+char* pName;
+
+public:
+Person(): pName(0),age(0)
+{
+}
+Person(char* pName, int age): pName(pName), age(age)
+{
+}
+~Person()
+{
+}
+
+void Display()
+{
+printf("Name = %s Age = %d \n", pName, age);
+}
