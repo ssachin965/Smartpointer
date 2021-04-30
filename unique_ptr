@@ -1,0 +1,75 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+
+using namespace std;
+class Demo
+{
+public:
+Demo()
+{
+a =b =1;
+}
+~Demo()
+{
+cout<<"Demo dtor"<<endl;
+}
+void operator delete(void *obj)
+{
+cout<<"Deleting"<<endl;
+//delete obj;
+}
+int a=0;
+int b=0;
+};
+template<typename T>
+class UP
+{
+
+
+public:
+T *ptr;
+UP(T *t = nullptr)
+{
+ptr = t;
+}
+
+UP(const UP<T>& ob) = delete;
+void operator=(const UP<T>& ob) = delete;
+~UP()
+{
+std::cout<<"dtor"<<endl;
+delete ptr;
+}
+UP( UP<T>&& ob)
+{
+cout<<"move"<<endl;
+this->ptr = ob.ptr;
+ob.ptr = nullptr;
+}
+void operator delete(void *obj)
+{
+cout<<"Deleting UP"<<endl;
+delete obj;
+}
+
+};
+int main() {
+// Write C++ code here
+std::cout << "Hello world!\n";
+UP<Demo> uptr1(new Demo());
+
+//UP<Demo> uptr2(std::move(uptr1));
+
+UP<Demo> *up = new UP<Demo>(new Demo());
+
+delete up->ptr;
+//UP<Demo> uptr3(new UP<Demo>());
+//delete uptr2.ptr;
+//c = a + b;
+
+//c = obj.operator+(b);
+//uptr2.ptr.delete(uptr2.ptr);
+
+std::cout<<"UP= "<<&uptr1<<std::endl;
+return 0;
+}
